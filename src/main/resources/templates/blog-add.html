@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Блог сайту</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container mt-5" mb-5>
+    <h1>Додавання статті</h1>
+    <form action="/blog/add" method="post">
+        <input type="text" name="title" placeholder="Вкажіть назву статті" class="form-control"><br>
+        <input type="text" name="anonce" placeholder="Вкажіть анонс статті" class="form-control"><br>
+        <input type="text-area" name="full_text" placeholder="Вкажіть повний текст статті" class="form-control"><br>
+        <button type="submit" class="btn btn-success">Додати статтю</button>
+
+    </form>
+</div>
+
+
+</div>
+
+<footer th:insert="blocks/footer:: footer"></footer>
+
+</body>
+</html>
