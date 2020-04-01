@@ -42,6 +42,10 @@ public class BlogController {
     }
     @GetMapping("/blog/{id}")
     public String blogDetails(@PathVariable(value = "id") long id, Model model){
+        if(!postRepository.existsById(id)){
+            return "redirect:/blog";
+        }
+
         Optional<Post> post = postRepository.findById(id);
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
@@ -49,4 +53,42 @@ public class BlogController {
 
         return "blog-details";
     }
+
+    @GetMapping("/blog/{id}/edit")
+    public String blogEdit(@PathVariable(value = "id") long id, Model model){
+        if(!postRepository.existsById(id)){
+            return "redirect:/blog";
+        }
+
+        Optional<Post> post = postRepository.findById(id);
+        ArrayList<Post> res = new ArrayList<>();
+        post.ifPresent(res::add);
+        model.addAttribute("post", res);
+        return "blog-edit";
+    }
+
+    @PostMapping("/blog/{id}/edit")
+    public String blogPostUpdate(@PathVariable(value = "id") long id,
+                                 @RequestParam String title, @RequestParam String anonce,
+                                 @RequestParam String full_text, Model model){
+        Post post = postRepository.findById(id).orElseThrow(RuntimeException::new);// add runtimeexception.
+        post.setTitle(title);
+        post.setAnonce(anonce);
+        post.setFull_text(full_text);
+        postRepository.save(post);
+
+        return "redirect:/blog";
+
+    }
+
+
+    @PostMapping("/blog/{id}/remove")
+    public String blogPostDelete(@PathVariable(value = "id") long id, Model model){
+        Post post = postRepository.findById(id).orElseThrow(RuntimeException::new);
+        postRepository.delete(post);
+
+        return "redirect:/blog";
+
+    }
+
 }
